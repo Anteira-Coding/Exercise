@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic-Tac-Toe</title>
+  </head>
+  <body>
+    <h1>Tic-Tac-Toe</h1>
+    <div id="board"></div>
+    <button onclick="resetBoard()">RESET</button>
+    <script>
+      const board = document.getElementById("board");
+      const cells = [];
+      let currentPlayer = "X";
+      let boardState = [
+        ["", "", ""],
+        ["", "", ""],
+        ["", "", ""]
+      ];
+
+      function createBoard() {
+        for (let row = 0; row < 3; row++) {
+          const rowContainer = document.createElement("div");
+          for (let col = 0; col < 3; col++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.onclick = () => makeMove(row, col);
+            rowContainer.appendChild(cell);
+            cells.push(cell);
+          }
+          board.appendChild(rowContainer);
+        }
+      }
+
+      function makeMove(row, col) {
+        if (boardState[row][col] === "") {
+          boardState[row][col] = currentPlayer;
+          cells[row * 3 + col].textContent = currentPlayer;
+          currentPlayer = currentPlayer === "X" ? "O" : "X";
+          checkWin();
+        }
+      }
+
+      function checkWin() {
+        const winningPatterns = [
+          [0, 0, 0, 1, 1, 1],
+          [0, 1, 2, 0, 1, 2],
+          [0, 0, 0, 1, 1, 1],
+          [1, 0, 0, 1, 0, 2],
+          [2, 0, 0, 1, 0, 2],
+          [0, 1, 2, 0, 1, 1],
+          [0, 0, 0, 1, 1, 0],
+          [2, 0, 0, 1, 1, 0]
+        ];
+
+        for (let pattern of winningPatterns) {
+          let sum = 0;
+          for (let i = 0; i < 3; i++) {
+            sum += boardState[pattern[i * 2]][pattern[i * 2 + 1]];
+          }
+          if (sum === 3) {
+            alert(`Player ${currentPlayer} wins!`);
+            resetBoard();
+            return;
+          } else if (sum === -3) {
+            alert(`Player ${currentPlayer === "X" ? "O" : "X"} wins!`);
+            resetBoard();
+            return;
+          }
+        }
+
+        // Check if there's a tie
+        if (!boardState.flat().includes("")) {
+          alert("It's a tie!");
+          resetBoard();
+          return;
+        }
+      }
+
+      function resetBoard() {
+        currentPlayer = "X";
+        boardState = [
+          ["", "", ""],
+          ["", "", ""],
+          ["", "", ""]
+        ];
+        for (const cell of cells) {
+          cell.textContent = "";
+        }
+      }
+
+      // Initialize the board
+      createBoard();
+    </script>
+  </body>
+</html>

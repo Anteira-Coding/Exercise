@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Merged Code</title>
+    <style>
+      /* CSS code for the neu-times clock */
+      .neu-times {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Roboto', sans-serif;
+      }
+
+      .neu-times .num {
+        width: 10px;
+        height: 60px;
+        background: #333;
+        border-radius: 10px;
+        margin: 0 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .neu-times .num::before {
+        content: "";
+        width: 100px;
+        height: 10px;
+        background: #333;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: -110px;
+        opacity: 0.3;
+      }
+
+      .neu-times .num span {
+        color: #fff;
+        font-size: 3em;
+        line-height: 0.8em;
+      }
+
+      .neu-times .dot {
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        animation: neu-times 1s infinite;
+      }
+
+      @keyframes neu-times {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-100%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="neu-times">
+      <div class="num"></div>
+      <div class="num"></div>
+      <div class="num"></div>
+      <div class="num"></div>
+      <div class="num"></div>
+      <div class="num"></div>
+      <div class="dot"></div>
+    </div>
+
+    <script>
+      // JavaScript code for the neu-times clock
+      const neuTimes = () => {
+        const clock = document.querySelector(".neu-times");
+        const dot = clock.querySelector(".dot");
+        const nums = clock.querySelectorAll(".num");
+
+        const updateTime = () => {
+          const now = new Date();
+          const hours = now.getHours().toString().padStart(2, "0");
+          const minutes = now.getMinutes().toString().padStart(2, "0");
+          const seconds = now.getSeconds().toString().padStart(2, "0");
+
+          nums[0].innerHTML = hours[0];
+          nums[1].innerHTML = hours[1];
+          nums[2].innerHTML = minutes[0];
+          nums[3].innerHTML = minutes[1];
+          nums[4].innerHTML = seconds[0];
+          nums[5].innerHTML = seconds[1];
+        };
+
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        const calculateDotPosition = () => {
+          const now = new Date();
+          const seconds = now.getSeconds();
+          const degree = (seconds / 60) * 360;
+
+          dot.style.transform = `rotate(${degree}deg)`;
+        };
+
+        calculateDotPosition();
+        setInterval(calculateDotPosition, 1000);
+      };
+
+      neuTimes();
+    </script>
+  </body>
+</html>

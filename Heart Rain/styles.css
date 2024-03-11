@@ -1,0 +1,22 @@
+.heart {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: red;
+    border-radius: 50px 0 50px 50px / 40px 0 40px 40px;
+    transform: rotate(-45deg);
+    animation: heartFade 6s linear;
+    top: -50px;
+  }
+  
+  @keyframes heartFade {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
